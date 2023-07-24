@@ -1,0 +1,14 @@
+# web-test-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web-test-pod
+  namespace: web
+  labels:
+    app: web2
+spec:
+  containers:
+    - name: busybox
+      image: busybox
+      command: ["sleep", "3600"]
+
