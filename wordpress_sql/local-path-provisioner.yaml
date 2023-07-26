@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: local-path-provisioner
+  namespace: local-path-storage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: local-path-provisioner
+  template:
+    metadata:
+      labels:
+        app: local-path-provisioner
+    spec:
+      serviceAccountName: local-path-provisioner
+      containers:
+        - name: local-path-provisioner
+          image: rancher/local-path-provisioner:v0.0.19
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          volumeMounts:
+            - name: local-path-provisioner-data
+              mountPath: /data
+      volumes:
+        - name: local-path-provisioner-data
+          hostPath:
+            path: /mnt/data # You can change this path if needed
+            type: DirectoryOrCreate
+

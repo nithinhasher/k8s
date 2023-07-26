@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis123
+  namespace: redis
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: redis123
+  template:
+    metadata:
+      labels:
+        app: redis123
+    spec:
+      containers:
+        - name: redis
+          image: redis
+
